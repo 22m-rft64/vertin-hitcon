@@ -3,6 +3,7 @@ import { ClientEvents } from "discord.js";
 import { VertinClient } from "@discordutils/vertinclient";
 import { DiscordEvent } from "@discordtypes/event";
 import { createLogger } from "@discordutils/logger";
+import { isEventInScope } from "@discordutils/guildscope";
 import fs from "fs";
 import path from "path";
 
@@ -20,6 +21,7 @@ export const registerEventHandlers = async (client: VertinClient): Promise<void>
 
     if (event.once) {
       client.once(event.name, async (...args) => {
+        if (!isEventInScope(args, process.env.GUILD_ID)) return;
         try {
           await event.execute(client, ...args);
         } catch (error) {
@@ -28,6 +30,7 @@ export const registerEventHandlers = async (client: VertinClient): Promise<void>
       });
     } else {
       client.on(event.name, async (...args) => {
+        if (!isEventInScope(args, process.env.GUILD_ID)) return;
         try {
           await event.execute(client, ...args);
         } catch (error) {
