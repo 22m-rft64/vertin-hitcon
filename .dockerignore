@@ -1,0 +1,15 @@
+.git
+node_modules
+.pnp.*
+.env
+.env.*
+claude_contexts
+tests
+scripts
+CLAUDE.md
+INSPECTOR.md
+checklists.md
+chatlogs
+.dbdata
+*.log
+.DS_Store

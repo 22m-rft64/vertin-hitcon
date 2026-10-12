@@ -1,0 +1,17 @@
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+node_modules/*
+.pnp.*
+
+.env
+.env.*
+!.env.example
+
+CLAUDE.md
+.claude/*
+*.log
+.DS_Store

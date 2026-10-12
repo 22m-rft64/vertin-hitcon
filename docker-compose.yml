@@ -1,0 +1,12 @@
+services:
+  bot:
+    build: .
+    container_name: vertin-hitcon-bot
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - shared-mongodb-net
+
+networks:
+  shared-mongodb-net:
+    external: true

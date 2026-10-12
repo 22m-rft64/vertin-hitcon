@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "nodeNext",
+    "module": "NodeNext",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["./.yarn/*"],
+      "@core/*": ["./src/core/*"],
+      "@adapters/*": ["./src/adapters/*"],
+      "@services/*": ["./src/core/services/*"],
+      "@ports/*": ["./src/core/ports/*"],
+      "@commands/*": ["./src/commands/*"],
+      "@discordtypes/*": ["./src/utils/types/*"],
+      "@discordutils/*": ["./src/utils/*"],
+      "@handlers/*": ["./src/handlers/*"],
+      "@events/*": ["./src/events/*"],
+      "@i18n/*": ["./src/i18n/*"]
+    }
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules"]
+}
