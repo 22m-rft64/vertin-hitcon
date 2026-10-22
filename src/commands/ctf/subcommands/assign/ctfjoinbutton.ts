@@ -16,6 +16,8 @@ import { CTF } from '@core/models/CTF';
 import { isErr, isOk } from '@discordtypes/result';
 import { fetchRole, fetchTextChannel } from '@discordutils/ctf/safefetch';
 
+type FeedKey = 'msg.feed.participant_joined' | 'msg.feed.participant_left';
+
 export class CTFJoinButton extends Component<ButtonInteraction> {
   static override actionName = 'ctfannounce_join';
 
@@ -28,7 +30,8 @@ export class CTFJoinButton extends Component<ButtonInteraction> {
 
   build(): ButtonBuilder {
     return new ButtonBuilder()
-      .setLabel('Join')
+      .setLabel('Join / Leave')
+      .setEmoji('🎯')
       .setCustomId(this.customId)
       .setStyle(ButtonStyle.Primary);
   }
@@ -49,22 +52,22 @@ export class CTFJoinButton extends Component<ButtonInteraction> {
     }
     const ctfRole = roleResult.value;
 
-    if (ctfRole.members.get(interaction.user.id)) {
+    const memberRoles = interaction.member.roles as GuildMemberRoleManager;
+
+    if (memberRoles.cache.has(ctfRole.id)) {
+      await memberRoles.remove(ctfRole);
+      audit.info('%s (%s) left "%s"', interaction.user.username, interaction.user.id, this.ctf.name);
+
       await interaction.reply({
-        content: t('error.already_joined', lang),
+        content: t('cmd.ctf.join.left', lang).replace('{ctfName}', this.ctf.name),
         flags: MessageFlags.Ephemeral,
       });
+      await this.logToFeed(interaction, 'msg.feed.participant_left');
       return;
     }
 
-    await (interaction.member.roles as GuildMemberRoleManager).add(ctfRole);
-
-    audit.info(
-      '%s (%s) joined "%s"',
-      interaction.user.username,
-      interaction.user.id,
-      this.ctf.name,
-    );
+    await memberRoles.add(ctfRole);
+    audit.info('%s (%s) joined "%s"', interaction.user.username, interaction.user.id, this.ctf.name);
 
     await interaction.reply({
       content: t('cmd.ctf.join.success', lang).replace('{ctfName}', this.ctf.name),
@@ -80,6 +83,31 @@ export class CTFJoinButton extends Component<ButtonInteraction> {
     if (isOk(generalResult)) {
       await generalResult.value.send(t('msg.user_joined', 'en').replace('{user}', `${interaction.user}`));
     }
+
+    await this.logToFeed(interaction, 'msg.feed.participant_joined');
+  }
+
+  /**
+   * 참가/퇴장 기록을 CTF feed 채널에 남긴다. feed가 없거나 실패해도 참가 처리는 유지.
+   */
+  private async logToFeed(interaction: ButtonInteraction, key: FeedKey): Promise<void> {
+    const ctfResult = await this.client.ctfService.getCTF({ name: this.ctf.name });
+    const feedId = isOk(ctfResult) ? ctfResult.value?.guild_channels.feed : null;
+    if (!feedId) {
+      return;
+    }
+
+    const feedResult = await fetchTextChannel(interaction.guild, feedId, 'feed channel');
+    if (isErr(feedResult)) {
+      return;
+    }
+
+    const timestamp = `<t:${Math.floor(Date.now() / 1000)}:T>`;
+    const line = t(key, 'en').replace('{user}', `${interaction.user}`);
+    await feedResult.value.send({
+      content: `${timestamp} · ${line}`,
+      allowedMentions: { parse: [] },
+    }).catch((error) => log.error('Failed to log participation to feed', error));
   }
 }
 

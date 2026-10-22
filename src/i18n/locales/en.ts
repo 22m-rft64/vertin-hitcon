@@ -119,6 +119,9 @@ const en = {
   'cmd.ctf.join.error_private': 'This is a private CTF. You\'ll need an admin invite.',
   'cmd.ctf.join.success': '✅ Registered for {ctfName}.',
   'msg.user_joined': '{user} has joined.',
+  'cmd.ctf.join.left': '...left {ctfName}. Press the button again to come back.',
+  'msg.feed.participant_joined': '**Participant Joined** · {user} joined the event.',
+  'msg.feed.participant_left': '**Participant Left** · {user} left the event.',
 
   // CTF workon
   'cmd.ctf.workon.description': 'Join a challenge thread.',

@@ -119,6 +119,9 @@ const fi = {
   'cmd.ctf.join.error_private': 'Tämä on yksityinen CTF. Tarvitset ylläpitäjän kutsun.',
   'cmd.ctf.join.success': '\u2705 Rekisteröity CTF:ään {ctfName}.',
   'msg.user_joined': '{user} on liittynyt.',
+  'cmd.ctf.join.left': '...poistuit CTF:stä {ctfName}. Paina nappia uudelleen palataksesi.',
+  'msg.feed.participant_joined': '**Osallistuja liittyi** · {user} liittyi tapahtumaan.',
+  'msg.feed.participant_left': '**Osallistuja poistui** · {user} poistui tapahtumasta.',
 
   // CTF workon
   'cmd.ctf.workon.description': 'Liity haasteketjuun.',

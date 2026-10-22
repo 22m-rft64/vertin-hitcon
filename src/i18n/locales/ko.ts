@@ -120,6 +120,9 @@ const ko = {
   'cmd.ctf.join.error_private': '비공개 CTF야. 관리자 초대가 필요해.',
   'cmd.ctf.join.success': '✅ {ctfName}에 등록했어.',
   'msg.user_joined': '{user}님이 합류했어.',
+  'cmd.ctf.join.left': '...{ctfName}에서 나갔어. 버튼을 다시 누르면 돌아올 수 있어.',
+  'msg.feed.participant_joined': '**참가** · {user}님이 대회에 합류했어.',
+  'msg.feed.participant_left': '**퇴장** · {user}님이 대회에서 나갔어.',
 
   // CTF workon
   'cmd.ctf.workon.description': '문제 스레드에 참여해.',

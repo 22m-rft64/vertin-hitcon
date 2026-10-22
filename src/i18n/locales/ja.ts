@@ -120,6 +120,9 @@ const ja = {
   'cmd.ctf.join.error_private': '非公開のCTFだ。管理者の招待が必要。',
   'cmd.ctf.join.success': '✅ {ctfName}に登録した。',
   'msg.user_joined': '{user}が合流した。',
+  'cmd.ctf.join.left': '...{ctfName}から抜けた。もう一度ボタンを押せば戻れる。',
+  'msg.feed.participant_joined': '**参加** · {user}が大会に合流した。',
+  'msg.feed.participant_left': '**退出** · {user}が大会から抜けた。',
 
   // CTF workon
   'cmd.ctf.workon.description': '問題スレッドに参加する。',
